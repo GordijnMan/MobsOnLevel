@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Frame name="M2LFrame" toplevel="true" movable="true" parent="UIParent" inherits="OptionFrameBoxTemplate">
 		<Size>
-			<AbsDimension x="125" y="90"/>
+			<AbsDimension x="100" y="75"/>
 		</Size>
 		<Anchors>
 			<Anchor point="TOP">
@@ -15,12 +15,12 @@
 		</Frames>
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString inherits="GameFontNormalSmall" text="Kills to level up:">
+				<FontString inherits="GameFontNormalSmall" text="Kills to level:">
 					<Color r="0.8" g="0.8" b="0.1"/>
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="-15"/>
+								<AbsDimension x="0" y="-10"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -30,17 +30,17 @@
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="-30"/>
+								<AbsDimension x="0" y="-20"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString inherits="GameFontNormalSmall" text="Time to level up:">
+				<FontString inherits="GameFontNormalSmall" text="Time to level:">
 					<Color r="0.8" g="0.8" b="0.1"/>
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="30"/>
+								<AbsDimension x="0" y="20"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -50,7 +50,7 @@
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="15"/>
+								<AbsDimension x="0" y="10"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -59,7 +59,7 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				this:SetBackdropColor(0.1, 0.1, 0.1);
+				this:SetBackdropColor(0.1, 0.1, 0.1, 0.2);
 				this:RegisterForDrag("LeftButton");
 				M2L_OnLoad();
 			</OnLoad>
@@ -78,18 +78,21 @@
 		</Scripts>
 	</Frame>
 	
-	<Button name="M2LCloseButton" inherits="UIPanelCloseButton">
+	<Button name="M2LCloseButton">
 		<Size>
-			<AbsDimension x="30" y="30"/>
+			<AbsDimension x="24" y="24"/>
 		</Size>
 		<Anchors>
 			<Anchor point="LEFT" relativeTo="M2LFrame" relativePoint="RIGHT">
 				<Offset>
-					<AbsDimension x="-5" y="0"/>
+					<AbsDimension x="10" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 		<Scripts>
+			<OnMouseUp>
+				this:StopMovingOrSizing();
+			</OnMouseUp>
 			<OnClick>
 				if M2LFrame:IsVisible() == 1 then
 					HideUIPanel(M2LFrame);

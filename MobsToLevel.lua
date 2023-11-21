@@ -57,12 +57,12 @@ function M2L_Calc(XPGain)
 		avgXP = avgXP / table.getn(previousMobs);
 		if restXP > (maxXP - curXP) then
 			killsToGo = (maxXP - curXP)/(avgXP*2);
-			M2LString:SetText(killsToGo);
+			M2LString:SetText(math.floor(killsToGo));
 		else
 			restToGo = (restXP / avgXP);
 			killsToGo = (maxXP - curXP - restXP)/(avgXP);
 			killsToGo = math.ceil((killsToGo + restToGo));
-			M2LString:SetText(killsToGo);
+			M2LString:SetText(math.floor(killsToGo));
 		end
 	else
 		for _,x in pairs(previousMobs) do
