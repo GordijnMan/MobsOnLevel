@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 -- EVTCalendar
--- Author: Reed
+-- Author: Reed, idontbyte, GordijnMan
 --
 --
 ----------------------------------------------------------------
@@ -90,8 +90,8 @@ end
 
 function M2L_print(str, err)
 	if err == nil then
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsToLevel: " .. tostring(str) .. "|r");
+		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel: " .. tostring(str) .. "|r");
 	else
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsToLevel:|r " .. "|c00FF0000Error|r|c006969FF - " .. tostring(str) .. "|r");
+		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel:|r " .. "|c00FF0000Error|r|c006969FF - " .. tostring(str) .. "|r");
 	end
 end

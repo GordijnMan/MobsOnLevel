@@ -1,5 +1,5 @@
 # MobsOnLevel by GordijnMan
-## Version 0.1
+## Version 0.2
 ## Forked from TheOneReed and idontbyte
 ## Official pages
   * https://github.com/TheOneReed/MobsToLevel/

@@ -96,18 +96,18 @@
 			<OnClick>
 				if M2LFrame:IsVisible() == 1 then
 					HideUIPanel(M2LFrame);
-					GameTooltip:SetText("Opens the MobsToLevel window.");
+					GameTooltip:SetText("Opens the MobsOnLevel window.");
 				else
 					ShowUIPanel(M2LFrame);
-					GameTooltip:SetText("Close the MobsToLevel window.");
+					GameTooltip:SetText("Close the MobsOnLevel window.");
 				end
 			</OnClick>
 			<OnEnter>
 				GameTooltip:SetOwner(this, "ANCHOR_RIGHT", 0, -32);
 				if M2LFrame:IsVisible() == 1 then
-					GameTooltip:SetText("Close the MobsToLevel window.");
+					GameTooltip:SetText("Close the MobsOnLevel window.");
 				else
-					GameTooltip:SetText("Opens the MobsToLevel window.");
+					GameTooltip:SetText("Opens the MobsOnLevel window.");
 				end
 				GameTooltip:Show();
 			</OnEnter>
