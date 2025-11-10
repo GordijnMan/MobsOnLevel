@@ -60,6 +60,8 @@ function SetupTooltipHooks()
 		if MobsOnLevel then
 			print("Hiding MobsOnLevel frame")
 			MobsOnLevel:Hide()
+		elseif
+			print("MobsOnLevel is nil")
 		end
     else
         print("PlayerFrame is nil")
