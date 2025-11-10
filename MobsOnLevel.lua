@@ -18,6 +18,7 @@ end
 function M2L_OnEvent()
 	if event == "PLAYER_LOGIN" and arg1 == "MobsOnLevel" then
         SetupTooltipHooks()
+		self:UnregisterEvent("PLAYER_LOGIN")
     elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
 			local _, _, killedMob, XPGain = string.find(arg1, "(.+) dies, you gain (%d+) experience.");
@@ -52,6 +53,11 @@ function SetupTooltipHooks()
         PlayerFrame:HookScript("OnLeave", function(self)
             GameTooltip:Hide()
         end)
+
+		-- Hide the original frame
+		if MobsToLevel then
+			MobsToLevel:Hide()
+		end
     else
         print("PlayerFrame is nil")
     end
