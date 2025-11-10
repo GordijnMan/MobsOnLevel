@@ -96,3 +96,18 @@ function M2L_print(str, err)
 		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel:|r " .. "|c00FF0000Error|r|c006969FF - " .. tostring(str) .. "|r");
 	end
 end
+
+-- MobsToLevel:Hide()
+
+-- Hook mouse enter on player unit frame
+PlayerFrame:HookScript("OnEnter", function(self)
+  GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+  GameTooltip:ClearLines()
+  GameTooltip:AddLine("Mobs to Level: " .. tostring(killsToGo))
+  GameTooltip:Show()
+end)
+
+-- Hook mouse leave on player unit frame
+PlayerFrame:HookScript("OnLeave", function(self)
+  GameTooltip:Hide()
+end)

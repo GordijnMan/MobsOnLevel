@@ -78,7 +78,7 @@
 		</Scripts>
 	</Frame>
 	
-	<Button name="M2LCloseButton">
+	<!-- <Button name="M2LCloseButton">
 		<Size>
 			<AbsDimension x="24" y="24"/>
 		</Size>
@@ -115,5 +115,5 @@
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
-	</Button>
+	</Button> -->
 </Ui> 
