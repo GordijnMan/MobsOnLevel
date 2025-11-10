@@ -10,12 +10,13 @@ killTimes = {};
 
 function M2L_OnLoad()
     this:RegisterEvent("ADDON_LOADED");
+	this:RegisterEvent("PLAYER_LOGIN");
 	this:RegisterEvent("PLAYER_XP_UPDATE");
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
 end
 
 function M2L_OnEvent()
-	if event == "ADDON_LOADED" and arg1 == "MobsOnLevel" then
+	if event == "PLAYER_LOGIN" and arg1 == "MobsOnLevel" then
         SetupTooltipHooks()
     elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
