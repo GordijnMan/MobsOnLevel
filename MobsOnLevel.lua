@@ -16,7 +16,7 @@ function M2L_OnLoad()
 end
 
 function M2L_OnEvent()
-	if event == "PLAYER_LOGIN" and arg1 == "MobsOnLevel" then
+	if event == "PLAYER_LOGIN" then
         print('Player login detected')
 		SetupTooltipHooks()
 		self:UnregisterEvent("PLAYER_LOGIN")
