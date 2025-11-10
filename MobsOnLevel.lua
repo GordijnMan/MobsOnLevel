@@ -12,26 +12,12 @@ function M2L_OnLoad()
     this:RegisterEvent("ADDON_LOADED");
 	this:RegisterEvent("PLAYER_XP_UPDATE");
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
-
-	-- MobsToLevel:Hide()
-
-	-- Hook mouse enter on player unit frame
-	PlayerFrame:HookScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:ClearLines()
-		GameTooltip:AddLine("Mobs to Level: " .. tostring(killsToGo))
-		GameTooltip:Show()
-	end)
-
-	-- Hook mouse leave on player unit frame
-	PlayerFrame:HookScript("OnLeave", function(self)
-		GameTooltip:Hide()
-	end)
-
 end
 
 function M2L_OnEvent()
-	if event == "CHAT_MSG_COMBAT_XP_GAIN" then
+	if event == "ADDON_LOADED" and arg1 == "MobsOnLevel" then
+        SetupTooltipHooks()
+    elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
 			local _, _, killedMob, XPGain = string.find(arg1, "(.+) dies, you gain (%d+) experience.");
 			if GetXPExhaustion() then
@@ -52,6 +38,22 @@ function M2L_OnEvent()
 	elseif event == "PLAYER_XP_UPDATE" then
 		M2L_Calc();
 	end
+end
+
+function SetupTooltipHooks()
+    if PlayerFrame then
+        PlayerFrame:HookScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine("Mobs to Level: " .. tostring(killsToGo))  -- Read from global or through M2L_Calc
+            GameTooltip:Show()
+        end)
+        PlayerFrame:HookScript("OnLeave", function(self)
+            GameTooltip:Hide()
+        end)
+    else
+        print("PlayerFrame is nil")
+    end
 end
 
 function M2L_Calc(XPGain)
