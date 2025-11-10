@@ -17,6 +17,7 @@ end
 
 function M2L_OnEvent()
 	if event == "CHAT_MSG_COMBAT_XP_GAIN" then
+		SetupTooltipHooks();
 		if string.find(arg1, "(.+) dies") then
 			local _, _, killedMob, XPGain = string.find(arg1, "(.+) dies, you gain (%d+) experience.");
 			if GetXPExhaustion() then
@@ -33,7 +34,6 @@ function M2L_OnEvent()
 				table.remove(killTimes, 1);
 			end
 			M2L_Calc(XPGain);
-			SetupTooltipHooks();
 		end
 	elseif event == "PLAYER_XP_UPDATE" then
 		M2L_Calc();
