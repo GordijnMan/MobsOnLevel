@@ -17,7 +17,8 @@ end
 
 function M2L_OnEvent()
 	if event == "PLAYER_LOGIN" and arg1 == "MobsOnLevel" then
-        SetupTooltipHooks()
+        print('Player login detected')
+		SetupTooltipHooks()
 		self:UnregisterEvent("PLAYER_LOGIN")
     elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
