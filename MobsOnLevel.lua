@@ -45,6 +45,7 @@ end
 function SetupTooltipHooks()
     if PlayerFrame then
         PlayerFrame:HookScript("OnEnter", function(self)
+			print("PlayFrame detected!")
             GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
             GameTooltip:ClearLines()
             GameTooltip:AddLine("Mobs to Level: " .. tostring(killsToGo))  -- Read from global or through M2L_Calc
@@ -55,8 +56,9 @@ function SetupTooltipHooks()
         end)
 
 		-- Hide the original frame
-		if MobsToLevel then
-			MobsToLevel:Hide()
+		if MobsOnLevel then
+			print("Hiding MobsOnLevel frame")
+			MobsOnLevel:Hide()
 		end
     else
         print("PlayerFrame is nil")
