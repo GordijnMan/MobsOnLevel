@@ -12,6 +12,22 @@ function M2L_OnLoad()
     this:RegisterEvent("ADDON_LOADED");
 	this:RegisterEvent("PLAYER_XP_UPDATE");
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
+
+	-- MobsToLevel:Hide()
+
+	-- Hook mouse enter on player unit frame
+	PlayerFrame:HookScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:ClearLines()
+		GameTooltip:AddLine("Mobs to Level: " .. tostring(killsToGo))
+		GameTooltip:Show()
+	end)
+
+	-- Hook mouse leave on player unit frame
+	PlayerFrame:HookScript("OnLeave", function(self)
+		GameTooltip:Hide()
+	end)
+
 end
 
 function M2L_OnEvent()
@@ -96,18 +112,3 @@ function M2L_print(str, err)
 		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel:|r " .. "|c00FF0000Error|r|c006969FF - " .. tostring(str) .. "|r");
 	end
 end
-
--- MobsToLevel:Hide()
-
--- Hook mouse enter on player unit frame
-PlayerFrame:HookScript("OnEnter", function(self)
-  GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-  GameTooltip:ClearLines()
-  GameTooltip:AddLine("Mobs to Level: " .. tostring(killsToGo))
-  GameTooltip:Show()
-end)
-
--- Hook mouse leave on player unit frame
-PlayerFrame:HookScript("OnLeave", function(self)
-  GameTooltip:Hide()
-end)
