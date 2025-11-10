@@ -60,7 +60,7 @@ function SetupTooltipHooks()
 		if MobsOnLevel then
 			print("Hiding MobsOnLevel frame")
 			MobsOnLevel:Hide()
-		elseif
+		else
 			print("MobsOnLevel is nil")
 		end
     else
