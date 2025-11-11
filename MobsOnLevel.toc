@@ -1,7 +1,7 @@
 ## Interface: 11200
 ## Title: MobsOnLevel
 ## Notes: Tracker for kill EXP needed to level, based on MobsToLevel by TheOneReed and idontbyte.
-## Version: 1.0
+## Version: 1.1
 
 MobsOnLevel.lua
 MobsOnLevel.xml

@@ -1,13 +1,13 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Frame name="M0L_Frame" toplevel="true" movable="true" parent="UIParent" inherits="OptionFrameBoxTemplate">
+	<Frame name="M0L_Frame" toplevel="true" movable="true" parent="UIParent" inherits="OptionFrameBoxTemplate" enableMouse="true" registerForClicks="AnyUp">
 		<Size>
-			<AbsDimension x="110" y="80"/>
+			<AbsDimension x="110" y="100"/>
 		</Size>
 		<Anchors>
-			<Anchor point="TOPRIGHT" relativeTo="PlayerFrame">
+			<Anchor point="TOPRIGHT" relativeTo="PlayerFrame" relativePoint="TOPRIGHT">
 				<Offset>
-					<AbsDimension x="80" y="-100"/>
+					<AbsDimension x="115" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
@@ -16,12 +16,22 @@
 		<Layers>
 			<Layer level="OVERLAY">
 
+				<FontString name = "M0L_NameString" inherits="GameFontDisable" text="NIL">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="34"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+
 				<!-- Time to level -->
 				<FontString inherits="GameFontNormalSmall" text="Time remaining:">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="24"/>
+								<AbsDimension x="0" y="16"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -30,7 +40,7 @@
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="10"/>
+								<AbsDimension x="0" y="2"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -41,16 +51,27 @@
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="-8"/>
+								<AbsDimension x="0" y="-18"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
+
 				<FontString name = "M0L_String" inherits="GameFontWhite" text="0">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="-22"/>
+								<AbsDimension x="0" y="-32"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+
+				<FontString name = "M0L_VerString" inherits="GameFontDisableSmall" text="v0">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="32" y="-36"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -71,6 +92,7 @@
 			</OnDragStop>
 			<OnMouseUp>
 				this:StopMovingOrSizing();
+				M0L_OnClick();
 			</OnMouseUp>
 			<OnEvent>
 				M0L_OnEvent();

@@ -1,8 +1,6 @@
 ----------------------------------------------------------------
--- EVTCalendar
+-- MobsOnLevel
 -- Author: Reed, idontbyte, GordijnMan
---
---
 ----------------------------------------------------------------
 
 local previousMobs = {}
@@ -12,23 +10,46 @@ local blinkCounter = 0
 local nextBlinkTime = 0
 
 function M0L_OnLoad()
+	this:RegisterEvent("ADDON_LOADED")
 	this:RegisterEvent("PLAYER_LOGIN")
 	this:RegisterEvent("PLAYER_XP_UPDATE")
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
 end
 
+function M0L_show()
+	M0L_Frame:SetAlpha(1)
+end
+
+function M0L_hide()
+	if HIDE then
+		M0L_Frame:SetAlpha(0)
+	end
+end
+
 function M0L_OnEvent()
 
-	if event == "PLAYER_LOGIN" then
+	if event == "ADDON_LOADED" then
+		ADDON_NAME = arg1
+		ADDON_VER = GetAddOnMetadata(ADDON_NAME, "Version")
+		local uptime = GetTime()
+
+		M0L_NameString:SetText(ADDON_NAME)
+		M0L_VerString:SetText('(v' .. ADDON_VER .. ')')
+		M0L_welcome(ADDON_NAME, ADDON_VER)
+		M0L_print("AddOn loaded", 'debug')
+	elseif event == "PLAYER_LOGIN" then
+
 		-- Hide the original frame
 		if M0L_Frame then
-			M0L_Frame:Hide()
+			-- M0L_hide() 		-- debug
+			-- DEBUG=true  		-- debug
+			M0L_print("M0L_Frame loaded", 'debug')
 		else
 			M0L_print("M0L_Frame is nil", 'error')
 		end
 
-		-- Hovering Player Unit Frame
-		M0L_Frame_OnHover()
+		M0L_Frame_OnHover()		-- Hovering over M0L to show and move frame
+		PlayerFrame_OnHover()	-- Hovering Player Unit Frame to check progress
 
 		-- Console commands
 		SLASH_MOBSONLEVEL1 = "/mobsonlevel"
@@ -39,9 +60,11 @@ function M0L_OnEvent()
 
 		SlashCmdList["MOBSONLEVEL"] = function(msg)
 			if msg == "show" then
-				M0L_Frame:Show()
+				HIDE=false
+				M0L_show()
 			elseif msg == "hide" then
-				M0L_Frame:Hide()
+				HIDE=true
+				M0L_hide()
 			elseif msg == "debug" or msg == "db" then
 				if DEBUG then
 					DEBUG=nil
@@ -51,26 +74,33 @@ function M0L_OnEvent()
 
 				M0L_print('Debug mode activated!', 'debug')
 
+			elseif msg == "reset" then
+				-- Reset the original frame position
+				if M0L_Frame then
+					M0L_print("Resetting MobsOnLevel...")
+					M0L_Frame:ClearAllPoints()
+    				M0L_Frame:SetPoint("TOPRIGHT", PlayerFrame, "TOPRIGHT", 115, 0)
+				else
+					M0L_print("M0L_Frame is nil", 'error')
+				end
+			-- Extra debugging modes...
 			elseif msg == "db2" then
 				M0L_SetText(8)
-
 				M0L_print('Debug mode 2!', 'error')
 			elseif msg == "db3" then
 				M0L_SetText(13)
-
 				M0L_print('Debug mode 3!')
 			elseif msg == "db4" then
 				M0L_SetText(21)
 				M0L_print('Debug mode 4!', 'random')
+				M0L_print('Debug mode 4!', 'test')
 			else
-				if M0L_Frame:IsShown() then
-					M0L_Frame:Hide()
-				else
-					M0L_Frame:Show()
+				if ADDON_NAME and ADDON_VER then
+					M0L_welcome(ADDON_NAME, ADDON_VER)
 				end
 			end
 		end
-
+	-- Calculate XP gains
 	elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
 			local _, _, killedMob, XPGain = string.find(arg1, "(.+) dies, you gain (%d+) experience.")
@@ -89,37 +119,67 @@ function M0L_OnEvent()
 			end
 			M0L_calc(XPGain)
 		end
-
-		M0L_print("Player combat XP!", 'debug')
-
 	elseif event == "PLAYER_XP_UPDATE" then
 		M0L_calc()
+	end
+end
 
-		M0L_print("Player XP update!", 'debug')
+function PlayerFrame_OnHover()
+
+	if PlayerFrame then
+		local frame = PlayerFrame
+	else
+		M0L_print("PlayFrame is nil!", 'error')
+	end
+
+	-- Hovering over the Player UnitFrame should display the amount of kills to level
+	if frame and type(frame.SetScript) == "function" then
+		local old_OnEnter = frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
+		frame:SetScript("OnEnter", function(self, ...)						-- Add new OnEnter functionality
+			old_OnEnter()
+			M0L_show()
+			M0L_print("Entering PlayFrame!", 'debug')
+		end)
+		local old_OnLeave = frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
+		frame:SetScript("OnLeave", function(self, ...)						-- Add new OnLeave functionality
+			old_OnLeave()
+			M0L_hide()
+			M0L_print("Leaving PlayFrame!", 'debug')
+		end)
 	end
 end
 
 function M0L_Frame_OnHover()
 
-	local frame = PlayerFrame
-
-	-- Hovering over the Player UnitFrame should display the amount of kills to level
-	if frame and type(frame.SetScript) == "function" then
-		local old_OnEnter = frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
-		frame:SetScript("OnEnter", function(self, ...)
+	-- Hovering over the M0L_Frame should always show the frame
+	if M0L_Frame and type(M0L_Frame.SetScript) == "function" then
+		local old_OnEnter = M0L_Frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
+		M0L_Frame:SetScript("OnEnter", function(self, ...)						-- Add new OnEnter functionality
 			old_OnEnter()
-			M0L_Frame:Show()
-			M0L_print("Entering PlayFrame!", 'debug')
+			M0L_show()
+			M0L_print("Entering M0L_Frame!", 'debug')
 		end)
-		local old_OnLeave = frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
-		frame:SetScript("OnLeave", function(self, ...)
+		local old_OnLeave = M0L_Frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
+		M0L_Frame:SetScript("OnLeave", function(self, ...)						-- Add new OnLeave functionality
 			old_OnLeave()
-			M0L_Frame:Hide()
-			M0L_print("Leaving PlayFrame!", 'debug')
+			-- M0L_hide()
+			M0L_hide() -- debug
+			M0L_print("Leaving M0L_Frame!", 'debug')
 		end)
 	else
-		M0L_print("frame doesn't have SetScript!", 'error')
+		M0L_print("M0L_Frame doesn't have SetScript!", 'error')
 	end
+end
+
+function M0L_OnClick()
+	-- Click to keep visible
+	if HIDE then
+		HIDE=false
+	else
+		HIDE=true
+	end
+	M0L_show() -- debug
+	M0L_print("Clicking M0L_Frame!", 'debug')
 end
 
 function M0L_calc(XPGain)
@@ -172,7 +232,7 @@ function M0L_calc(XPGain)
 	timeStamp = timeStamp * killsToGo
 	M0L_TimeString:SetText(tostring(date('%H:%M:%S',timeStamp)))
 
-	M0L_print("Mob calucation!", 'debug')
+	M0L_print("Player XP gain!", 'debug')
 end
 
 -- Function to blink frame
@@ -226,13 +286,16 @@ function M0L_SetText(killsToGo)
 
 	-- Blink frame
 	function ShowBlink(self)
-		M0L_print('BLINKING', 'debug')
 		Blink_frame(true)
+		M0L_print('BLINKING', 'debug')
+		-- Always show blinking frame
+		HIDE=false
+		M0L_show()
 	end
 
 	function HideBlink(self)
-		M0L_print('STOP BLINKING', 'debug')
 		Blink_frame(false)
+		M0L_print('STOP BLINKING', 'debug')
 	end
 
 	M0L_print("Setting M0L_String...", 'debug')
@@ -262,14 +325,37 @@ end
 
 function M0L_print(str, err)
 	if err == 'debug' and DEBUG == true then
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel:|r " .. "|c00FF00FF" .. 'DEBUG' .. "|r|c006969FF - " .. tostring(str) .. "|r")
-	elseif err == 'error' and DEBUG == true then
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel:|r " .. "|c00FF0000" .. 'ERROR' .. "|r|c006969FF - " .. tostring(str) .. "|r")
+		DEFAULT_CHAT_FRAME:AddMessage(
+			"|c00FFFF00MobsOnLevel:|r "
+			.. "|c00FF00FF" .. 'DEBUG'
+			.. "|r|c006969FF - " .. tostring(str) 
+			.. "|r")
+	elseif err == 'error' then
+		DEFAULT_CHAT_FRAME:AddMessage(
+			"|c00FFFF00MobsOnLevel:|r "
+			.. "|c00FF0000" .. 'ERROR'
+			.. "|r|c006969FF - " .. tostring(str) 
+			.. "|r")
 	elseif err == nil then
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel: INFO - " .. tostring(str) .. "|r")
-	elseif err and DEBUG == true then
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFFF00MobsOnLevel:|r " .. string.upper(tostring(err)) .. "|r|c006969FF - " .. tostring(str) .. "|r")
+		DEFAULT_CHAT_FRAME:AddMessage(
+			"|c00FFFF00MobsOnLevel: INFO - "
+			.. tostring(str)
+			.. "|r")
+	elseif err ~= 'debug' then
+		DEFAULT_CHAT_FRAME:AddMessage(
+			"|c00FFFF00MobsOnLevel:|r " 
+			.. string.upper(tostring(err)) 
+			.. "|r|c006969FF - " .. tostring(str) 
+			.. "|r")
 	end
+end
+
+function M0L_welcome(addonName, version)
+	print('\n')
+	M0L_print( 'Welcome to ' .. addonName .. '! (v' .. version .. ')\n'
+		.. '    Usage: /mobsonlevel, /MobsOnLevel, /mol, /m0l' .. '\n'
+		.. '                /mol show||hide,' .. '\n'
+		.. '                /mol debug||db' .. '\n')
 end
 
 function M0L_debug_frame(blink, uptime)
