@@ -60,7 +60,7 @@ end
 
 function M0L_OnEvent()
 
-	if event == "ADDON_LOADED" then
+	if event == "ADDON_LOADED" and arg1 == "MobsOnLevel" then
 		ADDON_NAME = arg1
 		ADDON_VER = GetAddOnMetadata(ADDON_NAME, "Version")
 		local uptime = GetTime()
@@ -386,7 +386,6 @@ function M0L_print(str, err)
 end
 
 function M0L_welcome(addonName, version)
-	print('\n')
 	M0L_print( 'Welcome to ' .. addonName .. '! (v' .. version .. ')\n'
 		.. '    Usage: /mobsonlevel, /MobsOnLevel, /mol, /m0l' .. '\n'
 		.. '                /mol show||hide,' .. '\n'
