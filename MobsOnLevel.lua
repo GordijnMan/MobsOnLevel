@@ -301,21 +301,25 @@ function M0L_SetText(killsToGo)
 	M0L_print("Setting M0L_String...", 'debug')
 
 	if killsToGo < 10 then
+		M0L_MobString:SetFontObject(GameFontNormalSmall)
 		M0L_String:SetFontObject(GameFontRedLarge)
 		M0L_String:SetText(tostring(killsToGo))
 
 		ShowBlink()
 	elseif killsToGo < 20 then
-		M0L_String:SetFontObject(GameFontNormalLarge)
+		M0L_MobString:SetFontObject(GameFontNormalSmall)
+		M0L_String:SetFontObject(GameFontNormal)
 		M0L_String:SetText(tostring(killsToGo))
 
 		HideBlink()
 	elseif killsToGo < 30 then
+		M0L_MobString:SetFontObject(GameFontNormalSmall)
 		M0L_String:SetFontObject(GameFontGreen)
 		M0L_String:SetText(tostring(killsToGo))
 
 		HideBlink()
 	else
+		M0L_MobString:SetFontObject(GameFontDisableSmall)
 		M0L_String:SetFontObject(GameFontWhite)
 		M0L_String:SetText(tostring(killsToGo))
 

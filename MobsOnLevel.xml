@@ -47,7 +47,7 @@
 				</FontString>
 
 				<!-- Kills to level -->
-				<FontString inherits="GameFontNormalSmall" text="Mobs remaining:">
+				<FontString name = "M0L_MobString" inherits="GameFontDisableSmall" text="Mobs remaining:">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
