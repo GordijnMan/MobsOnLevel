@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Frame name="M0L_Frame" toplevel="true" movable="true" parent="UIParent" inherits="OptionFrameBoxTemplate" enableMouse="true" registerForClicks="AnyUp">
 		<Size>
-			<AbsDimension x="120" y="100"/>
+			<AbsDimension x="120" y="95"/>
 		</Size>
 		<Anchors>
 			<Anchor point="TOPRIGHT" relativeTo="PlayerFrame" relativePoint="TOPRIGHT">
@@ -26,7 +26,7 @@
 					</Anchors>
 				</FontString>
 
-				<!-- Time to level -->
+				<!-- Time remaining -->
 				<FontString inherits="GameFontNormalSmall" text="Time remaining:">
 					<Anchors>
 						<Anchor point="CENTER">
@@ -36,22 +36,24 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
+
+				<!--  Time string -->
 				<FontString name = "M0L_TimeString" inherits="GameFontWhite" text="0">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="2"/>
+								<AbsDimension x="0" y="4"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 
-				<!-- Kills to level -->
+				<!-- Mobs remaining -->
 				<FontString name = "M0L_MobString" inherits="GameFontDisableSmall" text="Mobs remaining:">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="-18"/>
+								<AbsDimension x="0" y="-10"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -62,7 +64,7 @@
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
-								<AbsDimension x="0" y="-32"/>
+								<AbsDimension x="0" y="-24"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -93,7 +95,7 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				this:SetBackdropColor(0.1, 0.1, 0.1, 0.2);
+				this:SetBackdropColor(.4, .4, .4, .3);
 				this:RegisterForDrag("LeftButton");
 				M0L_OnLoad();
 			</OnLoad>
