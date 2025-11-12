@@ -159,25 +159,26 @@ end
 function PlayerFrame_OnHover()
 
 	if PlayerFrame then
-		local frame = PlayerFrame
-	else
-		M0L_print("PlayFrame is nil!", 'error')
-	end
 
-	-- Hovering over the Player UnitFrame should display the amount of kills to level
-	if frame and type(frame.SetScript) == "function" then
-		local old_OnEnter = frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
-		frame:SetScript("OnEnter", function(self, ...)						-- Add new OnEnter functionality
-			old_OnEnter()
-			M0L_toggle('show')
-			M0L_print("Entering PlayFrame!", 'debug')
-		end)
-		local old_OnLeave = frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
-		frame:SetScript("OnLeave", function(self, ...)						-- Add new OnLeave functionality
-			old_OnLeave()
-			M0L_toggle('hide')
-			M0L_print("Leaving PlayFrame!", 'debug')
-		end)
+		local frame = PlayerFrame
+
+		-- Hovering over the Player UnitFrame should display the amount of kills to level
+		if frame and type(frame.SetScript) == "function" then
+			local old_OnEnter = frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
+			frame:SetScript("OnEnter", function(self, ...)						-- Add new OnEnter functionality
+				old_OnEnter()
+				M0L_toggle('show')
+				M0L_print("Entering PlayFrame!", 'debug')
+			end)
+			local old_OnLeave = frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
+			frame:SetScript("OnLeave", function(self, ...)						-- Add new OnLeave functionality
+				old_OnLeave()
+				M0L_toggle('hide')
+				M0L_print("Leaving PlayFrame!", 'debug')
+			end)
+		end
+	else
+		M0L_print("PlayFrame does not exist!", 'error')
 	end
 end
 
