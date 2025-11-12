@@ -2,12 +2,12 @@
 ..\FrameXML\UI.xsd">
 	<Frame name="M0L_Frame" toplevel="true" movable="true" parent="UIParent" inherits="OptionFrameBoxTemplate" enableMouse="true" registerForClicks="AnyUp">
 		<Size>
-			<AbsDimension x="110" y="100"/>
+			<AbsDimension x="120" y="100"/>
 		</Size>
 		<Anchors>
 			<Anchor point="TOPRIGHT" relativeTo="PlayerFrame" relativePoint="TOPRIGHT">
 				<Offset>
-					<AbsDimension x="115" y="0"/>
+					<AbsDimension x="120" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
@@ -16,7 +16,7 @@
 		<Layers>
 			<Layer level="OVERLAY">
 
-				<FontString name = "M0L_NameString" inherits="GameFontDisable" text="NIL">
+				<FontString name = "M0L_NameString" inherits="GameFontDisable" text="MobsOnLevel">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
@@ -57,6 +57,7 @@
 					</Anchors>
 				</FontString>
 
+				<!-- MobsOnLevel -->
 				<FontString name = "M0L_String" inherits="GameFontWhite" text="0">
 					<Anchors>
 						<Anchor point="CENTER">
@@ -67,6 +68,18 @@
 					</Anchors>
 				</FontString>
 
+				<!-- Hidden -->
+				<FontString name = "M0L_HiddenString" inherits="GameFontDisableSmall" text="(hidden)">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="-32" y="-36"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+
+				<!-- Version -->
 				<FontString name = "M0L_VerString" inherits="GameFontDisableSmall" text="v0">
 					<Anchors>
 						<Anchor point="CENTER">

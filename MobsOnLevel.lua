@@ -26,6 +26,39 @@ function M0L_hide()
 	end
 end
 
+function M0L_toggle(action, hide)
+
+	if M0L_Frame then
+
+		M0L_print('Using Frame toggle...', 'debug')
+		M0L_print(action .. ', ' .. tostring(hide), 'debug')
+
+		if hide == true then
+			HIDE=true
+		elseif hide == false then
+			HIDE=false
+		end
+
+		M0L_print("Setting HIDE: " .. tostring(HIDE), 'debug')
+
+		if HIDE then
+			M0L_HiddenString:SetText('(hidden)')
+		else
+			M0L_HiddenString:SetText('VISIBLE')
+		end
+
+		-- Toggle show
+		if action == 'show' then
+			M0L_Frame:SetAlpha(1)
+		-- Toggle hide
+		elseif action == 'hide' then
+			M0L_Frame:SetAlpha(0)
+		end
+	else
+		M0L_print("M0L_Frame is nil", 'error')
+	end
+end
+
 function M0L_OnEvent()
 
 	if event == "ADDON_LOADED" then
@@ -41,7 +74,7 @@ function M0L_OnEvent()
 
 		-- Hide the original frame
 		if M0L_Frame then
-			-- M0L_hide() 		-- debug
+			M0L_toggle('hide') 	-- debug
 			-- DEBUG=true  		-- debug
 			M0L_print("M0L_Frame loaded", 'debug')
 		else
@@ -79,7 +112,7 @@ function M0L_OnEvent()
 				if M0L_Frame then
 					M0L_print("Resetting MobsOnLevel...")
 					M0L_Frame:ClearAllPoints()
-    				M0L_Frame:SetPoint("TOPRIGHT", PlayerFrame, "TOPRIGHT", 115, 0)
+    				M0L_Frame:SetPoint("TOPRIGHT", PlayerFrame, "TOPRIGHT", 120, 0)
 				else
 					M0L_print("M0L_Frame is nil", 'error')
 				end
@@ -178,7 +211,8 @@ function M0L_OnClick()
 	else
 		HIDE=true
 	end
-	M0L_show() -- debug
+	-- M0L_show()
+	M0L_toggle('show') -- debug
 	M0L_print("Clicking M0L_Frame!", 'debug')
 end
 
