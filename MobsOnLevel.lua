@@ -329,7 +329,7 @@ function M0L_SetText(killsToGo)
 		M0L_print('STOP BLINKING', 'debug')
 	end
 
-	M0L_print("Setting M0L_String...", 'debug')
+	M0L_print("Setting M0L_String: " .. killsToGo, 'debug')
 
 	if killsToGo < 10 then
 		M0L_MobString:SetFontObject(GameFontNormalSmall)

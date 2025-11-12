@@ -95,7 +95,7 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				this:SetBackdropColor(.4, .4, .4, .3);
+				this:SetBackdropColor(0, 0, 0, .2);
 				this:RegisterForDrag("LeftButton");
 				M0L_OnLoad();
 			</OnLoad>
