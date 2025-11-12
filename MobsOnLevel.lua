@@ -16,22 +16,21 @@ function M0L_OnLoad()
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
 end
 
-function M0L_show()
-	M0L_Frame:SetAlpha(1)
-end
+-- function M0L_show()
+-- 	M0L_Frame:SetAlpha(1)
+-- end
 
-function M0L_hide()
-	if HIDE then
-		M0L_Frame:SetAlpha(0)
-	end
-end
+-- function M0L_hide()
+-- 	if HIDE then
+-- 		M0L_Frame:SetAlpha(0)
+-- 	end
+-- end
 
 function M0L_toggle(action, hide)
 
 	if M0L_Frame then
 
-		M0L_print('Using Frame toggle...', 'debug')
-		M0L_print(action .. ', ' .. tostring(hide), 'debug')
+		M0L_print('Action: ' .. string.upper(action), 'debug')
 
 		if hide == true then
 			HIDE=true
@@ -39,7 +38,7 @@ function M0L_toggle(action, hide)
 			HIDE=false
 		end
 
-		M0L_print("Setting HIDE: " .. tostring(HIDE), 'debug')
+		M0L_print('HIDE: ' .. string.upper(tostring(HIDE)), 'debug')
 
 		if HIDE then
 			M0L_HiddenString:SetText('(hidden)')
@@ -51,7 +50,7 @@ function M0L_toggle(action, hide)
 		if action == 'show' then
 			M0L_Frame:SetAlpha(1)
 		-- Toggle hide
-		elseif action == 'hide' then
+		elseif action == 'hide' and HIDE then
 			M0L_Frame:SetAlpha(0)
 		end
 	else
@@ -93,11 +92,11 @@ function M0L_OnEvent()
 
 		SlashCmdList["MOBSONLEVEL"] = function(msg)
 			if msg == "show" then
-				HIDE=false
-				M0L_show()
+				M0L_toggle('show',false)
+				M0L_print('Showing ' .. ADDON_NAME)
 			elseif msg == "hide" then
-				HIDE=true
-				M0L_hide()
+				M0L_toggle('hide',true)
+				M0L_print('Hiding ' .. ADDON_NAME)
 			elseif msg == "debug" or msg == "db" then
 				if DEBUG then
 					DEBUG=nil
@@ -170,13 +169,13 @@ function PlayerFrame_OnHover()
 		local old_OnEnter = frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
 		frame:SetScript("OnEnter", function(self, ...)						-- Add new OnEnter functionality
 			old_OnEnter()
-			M0L_show()
+			M0L_toggle('show')
 			M0L_print("Entering PlayFrame!", 'debug')
 		end)
 		local old_OnLeave = frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
 		frame:SetScript("OnLeave", function(self, ...)						-- Add new OnLeave functionality
 			old_OnLeave()
-			M0L_hide()
+			M0L_toggle('hide')
 			M0L_print("Leaving PlayFrame!", 'debug')
 		end)
 	end
@@ -189,14 +188,13 @@ function M0L_Frame_OnHover()
 		local old_OnEnter = M0L_Frame:GetScript("OnEnter") or function() end	-- Keep old OnEnter functionality
 		M0L_Frame:SetScript("OnEnter", function(self, ...)						-- Add new OnEnter functionality
 			old_OnEnter()
-			M0L_show()
+			M0L_toggle('show')
 			M0L_print("Entering M0L_Frame!", 'debug')
 		end)
 		local old_OnLeave = M0L_Frame:GetScript("OnLeave") or function() end	-- Keep old OnLeave functionality
 		M0L_Frame:SetScript("OnLeave", function(self, ...)						-- Add new OnLeave functionality
 			old_OnLeave()
-			-- M0L_hide()
-			M0L_hide() -- debug
+			M0L_toggle('hide') -- debug
 			M0L_print("Leaving M0L_Frame!", 'debug')
 		end)
 	else
@@ -211,7 +209,6 @@ function M0L_OnClick()
 	else
 		HIDE=true
 	end
-	-- M0L_show()
 	M0L_toggle('show') -- debug
 	M0L_print("Clicking M0L_Frame!", 'debug')
 end
@@ -290,9 +287,9 @@ function Blink_frame(blink)
 
 			if uptime >= nextBlinkTime and blink then
 				if visible then
-					M0L_String:SetAlpha(0)
-				else
 					M0L_String:SetAlpha(1)
+				else
+					M0L_String:SetAlpha(0)
 				end
 				visible = not visible
 				nextBlinkTime = uptime + blinkInterval
@@ -323,8 +320,7 @@ function M0L_SetText(killsToGo)
 		Blink_frame(true)
 		M0L_print('BLINKING', 'debug')
 		-- Always show blinking frame
-		HIDE=false
-		M0L_show()
+		M0L_toggle('show', false)
 	end
 
 	function HideBlink(self)
