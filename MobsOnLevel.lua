@@ -42,8 +42,11 @@ function M0L_toggle(action, hide)
 
 		if HIDE then
 			M0L_HiddenString:SetText('(hidden)')
+			M0L_HiddenString:SetFontObject(GameFontDisableSmall)
 		else
 			M0L_HiddenString:SetText('VISIBLE')
+			M0L_HiddenString:SetFontObject(GameFontNormalSmall)
+			M0L_HiddenString:SetAlpha(0.5)
 		end
 
 		-- Toggle show
