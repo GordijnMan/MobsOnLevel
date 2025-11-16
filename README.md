@@ -1,7 +1,9 @@
 ### Version 1.1
-A fork of the original MobsToLevel, which adds some functionality and updated the layout. 
+A fork of the original MobsToLevel, which adds some functionality and updated the look. 
 
-You can now hide the addon if desired, either by commands (`mol hide`) or clicking the frame. The counter will blink once you are nearing the last couple mobs. It will appear automatically and it will now also show when hovering the player unit frame.
+You can now hide the addon if desired, either by command (`mol hide`) or by clicking the frame. 
+
+The counter will blink once you are nearing your last couple of mobs before leveling. It will appear automatically and it will also show when hovering the player unit frame.
 
 _This means you can now hide the window after just leveling, because the addon would often feel useless until you are close to leveling._
 
