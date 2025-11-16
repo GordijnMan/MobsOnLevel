@@ -92,6 +92,8 @@ function M0L_OnEvent()
 		SLASH_MOBSONLEVEL3 = "/MobsOnLevel"
 		SLASH_MOBSONLEVEL4 = "/mol"
 		SLASH_MOBSONLEVEL5 = "/MOL"
+		SLASH_MOBSONLEVEL6 = "/m0l"
+		SLASH_MOBSONLEVEL7 = "/M0L"
 
 		SlashCmdList["MOBSONLEVEL"] = function(msg)
 			if msg == "show" then
@@ -112,7 +114,7 @@ function M0L_OnEvent()
 			elseif msg == "reset" then
 				-- Reset the original frame position
 				if M0L_Frame then
-					M0L_print("Resetting MobsOnLevel...")
+					M0L_print("Resetting MobsOnLevel position...")
 					M0L_Frame:ClearAllPoints()
     				M0L_Frame:SetPoint("TOPRIGHT", PlayerFrame, "TOPRIGHT", 120, 0)
 				else
