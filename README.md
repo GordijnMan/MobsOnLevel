@@ -1,13 +1,7 @@
-# MobsOnLevel by GordijnMan
-## Version 1.1
-## Forked from TheOneReed and idontbyte
-## Official pages
-  * https://github.com/TheOneReed/MobsToLevel/
-  * https://github.com/idontbyte/MobsToLevel
-
+### Version 1.1
 A fork of the original MobsToLevel, which aims to simplify an already simple addon, by hooking it to your unit frame.
 
-## Preview
+## MobsOnLevel
 ![MobsOnLevel](./MobsOnLevel.png)
 
 ## Commands
@@ -16,3 +10,7 @@ A fork of the original MobsToLevel, which aims to simplify an already simple add
 * `mol hide`: Hide the MobsOnLevel frame
 * `mol reset`: Reset the MobsOnLevel frame position
 * `mol debug`: Show MobsOnLevel debug messages
+
+### Thanks to TheOneReed and idontbyte
+  * https://github.com/TheOneReed/MobsToLevel/
+  * https://github.com/idontbyte/MobsToLevel
