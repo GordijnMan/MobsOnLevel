@@ -267,7 +267,7 @@ function M0L_calc(XPGain)
 	end
 	timeStamp = timeStamp / table.getn(timeDifferences)
 	timeStamp = timeStamp * killsToGo
-	M0L_TimeString:SetText(tostring(date('%H:%M:%S',timeStamp)))
+	M0L_TimeString:SetText(tostring(date('!%H:%M:%S',timeStamp)))
 
 	M0L_print("Player XP gain!", 'debug')
 end
