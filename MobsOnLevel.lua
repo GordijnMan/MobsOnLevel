@@ -8,12 +8,15 @@ local killTimes = {}
 local blinkInterval = .5
 local blinkCounter = 0
 local nextBlinkTime = 0
+local M0L_StartTime = time()
+local M0L_TotalKills = 0
 
 function M0L_OnLoad()
 	this:RegisterEvent("ADDON_LOADED")
 	this:RegisterEvent("PLAYER_LOGIN")
 	this:RegisterEvent("PLAYER_XP_UPDATE")
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
+	M0L_TimeString:SetText('Kill some mobs!')
 end
 
 -- function M0L_show()
@@ -107,6 +110,7 @@ function M0L_OnEvent()
 					DEBUG=nil
 				else
 					DEBUG=true
+					M0L_TimeString:SetText('GET THEM NOW!')
 				end
 
 				M0L_print('Debug mode activated!', 'debug')
@@ -140,6 +144,7 @@ function M0L_OnEvent()
 	-- Calculate XP gains
 	elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
+			M0L_TotalKills = M0L_TotalKills + 1
 			local _, _, killedMob, XPGain = string.find(arg1, "(.+) dies, you gain (%d+) experience.")
 			if GetXPExhaustion() then
 				table.insert(previousMobs, math.floor(XPGain/2))
@@ -148,7 +153,7 @@ function M0L_OnEvent()
 				table.insert(previousMobs, math.floor(XPGain))
 				table.insert(killTimes,time())
 			end
-			if table.getn(previousMobs) > 3 then
+			if table.getn(previousMobs) > 10 then
 				table.remove(previousMobs, 1)
 			end
 			if table.getn(killTimes) > 10 then
@@ -256,19 +261,18 @@ function M0L_calc(XPGain)
 	killsToGo = math.ceil(killsToGo)
 	M0L_SetText(killsToGo)
 
-	local timeStamp = 0
-	local timeDifferences = {}
-	for _,x in pairs(killTimes) do
-		if (table.getn(killTimes) > _) then
-		table.insert(timeDifferences,((killTimes[_+1] - x)))
-		end
-	end
-	for _,x in pairs(timeDifferences) do
-		timeStamp = timeStamp + x
-	end
-	timeStamp = timeStamp / table.getn(timeDifferences)
-	timeStamp = timeStamp * killsToGo
-	M0L_TimeString:SetText(tostring(date('!%H:%M:%S',timeStamp)))
+	if M0L_TotalKills > 0 then
+        -- This is the clock that NEVER stops.
+        local totalSecondsPassed = time() - M0L_StartTime
+
+        -- This is your REAL pace: Total seconds online / Total kills made
+        local avgSecondsPerMob = totalSecondsPassed / M0L_TotalKills
+
+        -- Time left = (Your actual pace) * (Mobs remaining)
+        local timeRemaining = avgSecondsPerMob * killsToGo
+
+        M0L_TimeString:SetText(date('!%H:%M:%S', timeRemaining))
+    end
 
 	M0L_print("Player XP gain!", 'debug')
 end
