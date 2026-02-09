@@ -38,7 +38,7 @@
 				</FontString>
 
 				<!--  Time string -->
-				<FontString name = "M0L_TimeString" inherits="GameFontWhite" text="0">
+				<FontString name = "M0L_TimeString" inherits="GameFontWhite" text="Start killing">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>
@@ -60,7 +60,7 @@
 				</FontString>
 
 				<!-- MobsOnLevel -->
-				<FontString name = "M0L_String" inherits="GameFontWhite" text="0">
+				<FontString name = "M0L_String" inherits="GameFontWhite" text="some mobs!">
 					<Anchors>
 						<Anchor point="CENTER">
 							<Offset>

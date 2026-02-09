@@ -8,6 +8,8 @@ local killTimes = {}
 local blinkInterval = .5
 local blinkCounter = 0
 local nextBlinkTime = 0
+local M0L_StartTime = time()
+local M0L_TotalKills = 0
 
 function M0L_OnLoad()
 	this:RegisterEvent("ADDON_LOADED")
@@ -140,6 +142,7 @@ function M0L_OnEvent()
 	-- Calculate XP gains
 	elseif event == "CHAT_MSG_COMBAT_XP_GAIN" then
 		if string.find(arg1, "(.+) dies") then
+			M0L_TotalKills = M0L_TotalKills + 1
 			local _, _, killedMob, XPGain = string.find(arg1, "(.+) dies, you gain (%d+) experience.")
 			if GetXPExhaustion() then
 				table.insert(previousMobs, math.floor(XPGain/2))
@@ -148,10 +151,10 @@ function M0L_OnEvent()
 				table.insert(previousMobs, math.floor(XPGain))
 				table.insert(killTimes,time())
 			end
-			if table.getn(previousMobs) > 3 then
+			if table.getn(previousMobs) > 100 then
 				table.remove(previousMobs, 1)
 			end
-			if table.getn(killTimes) > 10 then
+			if table.getn(killTimes) > 100 then
 				table.remove(killTimes, 1)
 			end
 			M0L_calc(XPGain)
@@ -220,54 +223,49 @@ function M0L_OnClick()
 end
 
 function M0L_calc(XPGain)
-	local restToGo, killsToGo
+	table.insert(killTimes, time())
 	local avgXP = 0
+	local mobCount = table.getn(previousMobs)
 
-	if not XPGain then
-		XPGain = 0
-	end
+    if mobCount > 0 then
+        for _, x in pairs(previousMobs) do
+            avgXP = avgXP + x
+        end
+        avgXP = avgXP / mobCount
+    else
+        avgXP = 1 -- Safety to prevent 0/0 errors
+    end
 
 	local restXP = GetXPExhaustion()
-	local curXP = UnitXP("player") + XPGain
+	local curXP = UnitXP("player") + (XPGain or 0)
 	local maxXP = UnitXPMax("player")
+	local killsToGo = 0
 
-	if restXP then
-		for _,x in pairs(previousMobs) do
-			avgXP = avgXP + x
-		end
-		avgXP = avgXP / table.getn(previousMobs)
+	if restXP and restXP > 0 then
+
 		if restXP > (maxXP - curXP) then
 			killsToGo = (maxXP - curXP)/(avgXP*2)
-			killsToGo = math.floor(killsToGo + 0.5) -- Round to nearest number
-			M0L_SetText(killsToGo)
+
 		else
-			restToGo = (restXP / avgXP)
-			killsToGo = (maxXP - curXP - restXP)/(avgXP)
-			killsToGo = math.ceil((killsToGo + restToGo))
-			M0L_SetText(killsToGo)
+			local restKills = restXP / avgXP
+            local normalXPNeeded = (maxXP - curXP) - restXP
+            local normalKills = normalXPNeeded / (avgXP / 2)
+            killsToGo = restKills + normalKills
 		end
 	else
-		for _,x in pairs(previousMobs) do
-			avgXP = avgXP + x
-		end
-		avgXP = avgXP / table.getn(previousMobs)
-		killsToGo = math.ceil((maxXP - curXP)/avgXP)
-		M0L_SetText(killsToGo)
+		killsToGo = (maxXP - curXP) / avgXP
 	end
 
-	local timeStamp = 0
-	local timeDifferences = {}
-	for _,x in pairs(killTimes) do
-		if (table.getn(killTimes) > _) then
-		table.insert(timeDifferences,((killTimes[_+1] - x)))
-		end
-	end
-	for _,x in pairs(timeDifferences) do
-		timeStamp = timeStamp + x
-	end
-	timeStamp = timeStamp / table.getn(timeDifferences)
-	timeStamp = timeStamp * killsToGo
-	M0L_TimeString:SetText(tostring(date('%H:%M:%S',timeStamp)))
+	killsToGo = math.ceil(killsToGo)
+	M0L_SetText(killsToGo)
+
+	if M0L_TotalKills > 0 then
+        local totalSecondsPassed = time() - M0L_StartTime
+        local avgSecondsPerMob = totalSecondsPassed / M0L_TotalKills
+        local timeRemaining = avgSecondsPerMob * killsToGo
+
+        M0L_TimeString:SetText(date('!%H:%M:%S', timeRemaining))
+    end
 
 	M0L_print("Player XP gain!", 'debug')
 end
