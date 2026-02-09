@@ -1,4 +1,4 @@
-### Version 1.1
+### Version 1.2
 A fork of the original MobsToLevel, which adds some functionality and updated the look. 
 
 You can now hide the addon if desired, either by command (`mol hide`) or by clicking the frame. 
