@@ -16,7 +16,6 @@ function M0L_OnLoad()
 	this:RegisterEvent("PLAYER_LOGIN")
 	this:RegisterEvent("PLAYER_XP_UPDATE")
     this:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
-	M0L_TimeString:SetText('Kill some mobs!')
 end
 
 -- function M0L_show()
