@@ -109,7 +109,6 @@ function M0L_OnEvent()
 					DEBUG=nil
 				else
 					DEBUG=true
-					M0L_TimeString:SetText('GET THEM NOW!')
 				end
 
 				M0L_print('Debug mode activated!', 'debug')
