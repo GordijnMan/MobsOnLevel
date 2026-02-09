@@ -151,10 +151,10 @@ function M0L_OnEvent()
 				table.insert(previousMobs, math.floor(XPGain))
 				table.insert(killTimes,time())
 			end
-			if table.getn(previousMobs) > 10 then
+			if table.getn(previousMobs) > 100 then
 				table.remove(previousMobs, 1)
 			end
-			if table.getn(killTimes) > 10 then
+			if table.getn(killTimes) > 100 then
 				table.remove(killTimes, 1)
 			end
 			M0L_calc(XPGain)
@@ -260,13 +260,8 @@ function M0L_calc(XPGain)
 	M0L_SetText(killsToGo)
 
 	if M0L_TotalKills > 0 then
-        -- This is the clock that NEVER stops.
         local totalSecondsPassed = time() - M0L_StartTime
-
-        -- This is your REAL pace: Total seconds online / Total kills made
         local avgSecondsPerMob = totalSecondsPassed / M0L_TotalKills
-
-        -- Time left = (Your actual pace) * (Mobs remaining)
         local timeRemaining = avgSecondsPerMob * killsToGo
 
         M0L_TimeString:SetText(date('!%H:%M:%S', timeRemaining))
